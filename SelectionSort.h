@@ -4,14 +4,14 @@
 #include "Sort.h"
 
 template<typename ItemType>
-class SelectionSort : 
+class SelectionSort : public Sort<ItemType>
 {
 public:
-	SelectionSort();
+	SelectionSort(int);
 	~SelectionSort();
-	
+	void sort();
 };
 
-
+#include "SelectionSort.cpp"
 
 #endif
