@@ -8,7 +8,7 @@ class BubbleSort : public Sort<ItemType>
 {
  public:
   BubbleSort(int size);
-  virtual void sort();  
+  void sort();  
 };
 
 #include "BubbleSort.cpp"

@@ -1,4 +1,4 @@
-#include <iostream>
+  #include <iostream>
 #include <string>
 #include <limits>
 using namespace std;
@@ -43,5 +43,6 @@ bool Sort<ItemType>::compare(ItemType a,ItemType b)
 template <>
 bool Sort<string>::compare(string a,string b)
 {
+  cout<<"In string compare function\n";
   return ((a.compare(b)>0)?1:0);
 }
