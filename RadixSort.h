@@ -16,10 +16,11 @@ class RadixSort: public Sort<ItemType>
 	public:
 		RadixSort(int);
 		void sort();
-		int calcualteMaxStringLength();
+		int calculateMaxNoOfDigits();
+//		int calculateMaxStringLength();
 };
 
-
+/*
 template <>
 class RadixSort<int>: public Sort<int>
 {
@@ -30,6 +31,6 @@ class RadixSort<int>: public Sort<int>
 		void sort();
 		int calculateMaxNoOfDigits();
 };
-
+*/
 #include "RadixSort.cpp"
 #endif

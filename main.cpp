@@ -4,6 +4,7 @@
 #include "SelectionSort.h"
 #include "InsertionSort.h"
 #include "RadixSort.h"
+#include "HeapSort.h"
 #include <iostream>
 #include <limits>
 using namespace std;
@@ -29,10 +30,11 @@ int main()
     cout<<"\t\t 4.SelectionSort\n";
     cout<<"\t\t 5.InsertionSort\n";
     cout<<"\t\t 6.RadixSort\n";
+    cout<<"\t\t 7.HeapSort\n";
     cout<<"\nPlease select one sort algorithm: ";
-    while(!(cin>>sortType) || !(sortType>=1 && sortType<=6))
+    while(!(cin>>sortType) || !(sortType>=1 && sortType<=7))
     {
-      cout<<"Please enter valid number from 1 to 6\n";
+      cout<<"Please enter valid number from 1 to 7\n";
       cin.clear();     //The cin.clear() clears the error flag on cin (so that future I/O operations will work correctly)
       cin.ignore(numeric_limits<streamsize>::max(), '\n'); // input which failed will be sitting in buffer, so we need to clear the buffer. 
     }
@@ -44,6 +46,7 @@ int main()
       case 4: selectedSort="SelectionSort"; break;
       case 5: selectedSort="InsertionSort"; break;
       case 6: selectedSort="RadixSort"; break;
+      case 7: selectedSort="HeapSort"; break;
     }
     cout<<"\nWhich datatype values do you want to enter?:\n";
     cout<<"1.Integers \n2.Characters \n3.Strings\n\n";
@@ -92,6 +95,9 @@ int main()
         case 6:
                sortObj = new RadixSort<int>(size);
                 break; 
+        case 7:
+               sortObj = new HeapSort<int>(size);
+                break; 
       }
       doSort(sortObj);
     }
@@ -118,6 +124,9 @@ int main()
         case 6:
                sortObj = new RadixSort<char>(size);
                 break; 
+        case 7:
+               sortObj = new HeapSort<char>(size);
+                break; 
       }
       doSort(sortObj);
     }
@@ -143,6 +152,9 @@ int main()
                 break; 
         case 6:
                sortObj = new RadixSort<string>(size);
+                break; 
+        case 7:
+               sortObj = new HeapSort<string>(size);
                 break; 
       }
       doSort(sortObj);

@@ -7,6 +7,7 @@ RadixSort<ItemType>::RadixSort(int size) : Sort<ItemType>(size)
 	}
 }
 
+template<>
 RadixSort<int>::RadixSort(int size) : Sort<int>(size)
 {
 	//Create vector of 10 linked lists. As we have 10 digits (0-9), vector will have 10 linked lists. i.e Each digit will have linkedlist
@@ -29,34 +30,69 @@ void RadixSort<string>::sort()
 template <typename ItemType>
 void RadixSort<ItemType>::sort()
 {
-	
+	//calculateMaxNoOfDigits();
+	char ch;
+	//store each character in lists based on char value.
+	for(int i=0; i<this->size; i++)
+	{
+		ch = this->array[i];
+		ch = tolower(ch);
+		lists[ch-97]->addItem(this->array[i]);
+	}
+
+	//Retrive all values from lists start from 0th linkedList and store them in array
+	for(int i=0,j=0; i<this->size; i++)
+	{
+		//Don't get values from linkedlist if the linkedlist is empty. So skip those lists.
+		while(lists[j]->getItemCount()==0)
+			j++;
+		//Once non-empty set is identified get values from the list and store them in array
+		this->array[i] = lists[j]->pop();		
+	}
 }
 
 template <>
 void RadixSort<string>::sort()
 {
-	int maxStringLength = calcualteMaxStringLength();
+	//int maxStringLength = calculateMaxStringLength();
+
+	int maxStringLength=0;
+	for(int i=0; i<this->size; i++)
+	{
+		if(maxStringLength<(int)this->array[i].length() )
+			maxStringLength = this->array[i].length();
+	}
+
+	cout<<"maxStringLength "<<maxStringLength<<endl;
 	char ch;
-	int i=0;
+	int iterator=0;
 	do
 	{
-		for(; i<this->size; i++)
+		for(int i=0; i<this->size; i++)
 		{
-			if(this->array[i].length()-i >= 0 )
+			//Check if string has still more charcters to be read. 
+			//For the first time we should compare strings with last character, so length - iterator -1. Next time, iterator will be incremented so that we will get length-2 character.
+			if((int)this->array[i].length()-iterator > 0 )
 			{
-				ch = this->array[i][this->array[i].length()-i];
-				tolower(ch);
-				lists[ch-96]->addItem(this->array[i]);
+				ch = this->array[i][this->array[i].length()-iterator-1];
+				ch = tolower(ch);
+				lists[ch-97]->addItem(this->array[i]);				
 			}
+			//If you read all characters from a string, then store this string again in lists by using first character
 			else
-				lists[0]->addItem(this->array[i]);
+			{
+				ch = this->array[i][0];
+				ch = tolower(ch);
+				lists[ch-97]->addItem(this->array[i]);	
+			}
 		}
-
+		
 		//Printing linked lists
 		cout<<"\nPrinting LinkedLists\n";
+		char temp = 'a';
 		for(int i=0;i<(int)lists.size();i++)
 		{
-			cout<<"["<<i<<"]--> ";
+			cout<<"["<<temp++<<"]--> ";
 		 	lists[i]->print();
 		}
 
@@ -69,20 +105,20 @@ void RadixSort<string>::sort()
 			//Once non-empty set is identified get values from the list and store them in array
 			this->array[i] = lists[j]->pop();		
 		}
-
-	}while(++i < maxStringLength);
+		
+	}while(++iterator < maxStringLength);
 }
 
 
-//template<>
+template<>
 void RadixSort<int>::sort()
 {
 	int m=1;
 	int div,rem;
-	
+	//this->calculateMaxNoOfDigits();
 	int maxDigitCount;
 	//calcualte max digit count
-	maxDigitCount = calculateMaxNoOfDigits();
+	maxDigitCount = 5;//calculateMaxNoOfDigits();
 	cout<<"maxDigitCount "<<maxDigitCount<<endl;
 	do
 	{
@@ -119,25 +155,15 @@ void RadixSort<int>::sort()
 		
 	}while(--maxDigitCount>0);
 }
-
-template <typename ItemType>
-int RadixSort<ItemType>::calcualteMaxStringLength()
+/*
+template<typename ItemType>
+int RadixSort<ItemType>::calculateMaxNoOfDigits()
 {
 	return 0;
 }
-
-template <>
-int RadixSort<string>::calcualteMaxStringLength()
-{
-	int maxLength=0;
-	for(int i=0; i<this->size; i++)
-	{
-		if(maxLength<this->array[i].length() )
-			maxLength = this->array[i].length();
-	}
-	return maxLength;
-}
-
+*/
+//Calculate digit count by dividing the value by zero until unless you get a zero.
+template<>
 int RadixSort<int>::calculateMaxNoOfDigits()
 {
 	int digitCount,temp,maxDigitCount=0;
@@ -153,6 +179,5 @@ int RadixSort<int>::calculateMaxNoOfDigits()
 		if(maxDigitCount < digitCount)
 			maxDigitCount = digitCount;
 	}
-	cout<<" In maxDigitCount function "<<maxDigitCount<<endl;
 	return maxDigitCount;
 }
